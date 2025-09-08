@@ -17,11 +17,28 @@ def gen_CurveIV(df, isInverseQuoted):
     Returns:
         pd.DataFrame: DataFrame with implied volatility curves, including bid/ask volatilities,
                       variances, and moneyness.
-    """
-    df = df.copy()
+                    
+    Raises:
+        ValueError: If any required columns are missing from the input DataFrame.
 
-    # Calculate tenor in years from date and expiry
-    df['tenor'] = (df['expiry'] - df['date']).dt.total_seconds() / (365.0 * 24 * 60 * 60)
+    """
+
+    # Define required columns
+    required_columns = ['date', 'underlying', 'expiry', 'spot', 'strike', 'tenor',
+                       'call_bid', 'call_ask', 'put_bid', 'put_ask']
+    
+    # Check for missing columns
+    missing_columns = [col for col in required_columns if col not in df.columns]
+    if missing_columns:
+        raise ValueError(f"Input DataFrame is missing required columns: {', '.join(missing_columns)}")
+    
+    # Additional type checks (optional)
+    if not pd.api.types.is_datetime64_any_dtype(df['date']) or not pd.api.types.is_datetime64_any_dtype(df['expiry']):
+        raise ValueError("Columns 'date' and 'expiry' must be datetime-compatible")
+    # if not all(df[col].dtype.kind in 'if' for col in ['spot', 'strike', 'call_bid', 'call_ask', 'put_bid', 'put_ask']):
+    #     raise ValueError("Columns 'spot', 'strike', 'call_bid', 'call_ask', 'put_bid', 'put_ask' must be numeric")
+
+    df = df.copy()
 
     # Calculate implied forward prices based on put-call parity
     if isInverseQuoted:

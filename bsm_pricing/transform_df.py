@@ -20,7 +20,10 @@ def transform_laevitas_df(df):
     # Convert date columns to datetime format
     df['expiration_date_dt'] = pd.to_datetime(df['expiration_date'], utc=True)
     df['date_dt'] = pd.to_datetime(df['date'].astype(float), unit='ms', utc=True)
-
+    
+    # Calculate tenor in years from date and expiry
+    df['tenor'] = (df['expiration_date_dt'] - df['date_dt']).dt.total_seconds() / (365.0 * 24 * 60 * 60)
+    
     # Define columns to use as index for pivoting
     index_cols = ['underlyer', 'exercise', 'settlement', 
                   'strike', 'forward_price', 'expiration_date_dt', 
