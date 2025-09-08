@@ -9,6 +9,6 @@ from .pricing import (
     general_bsm_iv
 )
 
-from .genIVCurve import gen_iv_curve
+from .genIVCurve import gen_CurveIV
 
 __version__ = "0.2.0"
