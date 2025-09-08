@@ -329,10 +329,10 @@ def inverse_bsm_local(spots, vols, k, tau, r, is_call, ccr, greek_type=1):
         pv[:, 6] = vanna
         return pv
 
-def general_bsm_iv(prices, spots, k, tau, r, is_call, ccr, n=10, m=10, cap_vol_at_max=False):
+def general_bsm_iv(prices, spots, k, tau, r, is_call, ccr, n=10, m=10, max_vol=3, cap_vol_at_max=False):
     """Calculate implied volatility using a grid-based iterative approach, fully vectorized.
     
-    Divides the volatility range [0, 3.0] into n slices, evaluates option prices
+    Divides the volatility range [0, max_vol] into n slices, evaluates option prices
     using general_bsm, and iteratively refines the volatility range over m iterations.
     
     Args:
@@ -345,6 +345,7 @@ def general_bsm_iv(prices, spots, k, tau, r, is_call, ccr, n=10, m=10, cap_vol_a
         ccr: Continuous carry rate(s) (scalar or array of length k).
         n: Number of volatility slices per iteration (positive integer, default=10).
         m: Number of refinement iterations (positive integer, default=10).
+        max_vol: Maximum volatility positive, default=300%)
         cap_vol_at_max: If True, set implied vol to max_vol (3.0) when price > h_pv (default=False).
     
     Returns:
@@ -363,7 +364,6 @@ def general_bsm_iv(prices, spots, k, tau, r, is_call, ccr, n=10, m=10, cap_vol_a
     prices, spots, k, tau, r, ccr, is_call = broadcast_inputs(prices, spots, k, tau, r, ccr, is_call)
     k_options = len(spots)  # Number of options
     min_vol = 0.0001  # Minimum volatility (0.01%)
-    max_vol = 3.0     # Maximum volatility (300%)
     imp_vols = np.full(k_options, -1.0)  # Initialize output
     active = np.ones(k_options, dtype=bool)  # Track options still being processed
     invalid = np.zeros(k_options, dtype=bool)  # Track definitively invalid options
