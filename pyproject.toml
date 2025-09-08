@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "bsm_pricing"
-version = "0.2.0"
+version = "0.2.1"
 description = "A Python package for Black-Scholes-Merton option pricing, including inverse futures and implied volatility calculations"
 readme = "README.md"
 authors = [{name = "Clive Lam", email = "clivelamkk@gmail.com"}]
