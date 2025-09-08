@@ -11,4 +11,6 @@ from .pricing import (
 
 from .genIVCurve import gen_CurveIV
 
-__version__ = "0.2.1"
+from .transform_df import transform_laevitas_df
+
+__version__ = "0.2.2"
