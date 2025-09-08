@@ -7,13 +7,13 @@ A Python package for Black-Scholes-Merton (BSM) option pricing, including invers
 Install the package directly from GitHub:
 
 ```bash
-pip install git+git://github.com/clivelamkk/bsm_pricing.git
+pip install git+https://github.com/clivelamkk/bsm_pricing.git
 ```
 
 To install a specific version or update to the latest version:
 
 ```bash
-pip install --upgrade git+git://github.com/clivelamkk/bsm_pricing.git
+pip install --upgrade git+https://github.com/clivelamkk/bsm_pricing.git
 ```
 
 ## Prerequisites
